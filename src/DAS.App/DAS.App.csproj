@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>DAS.App</RootNamespace>
+    <AssemblyName Condition="'$(Mode)'=='verify'">DAS.Verify</AssemblyName>
+    <AssemblyName Condition="'$(Mode)'!='verify'">DAS.Login</AssemblyName>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DAS.Core\DAS.Core.csproj" />
+    <ProjectReference Include="..\DAS.Platform\DAS.Platform.csproj" />
+  </ItemGroup>
+</Project>

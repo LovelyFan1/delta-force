@@ -1,0 +1,26 @@
+﻿# 队列与运行态（含账号明文，禁止入库）
+accounts*.txt
+accounts*.csv
+accounts*.json
+state.json
+dirs.json
+out/
+logs/
+*.log
+*.jsonl
+
+# 构建
+bin/
+obj/
+src/**/bin/
+src/**/obj/
+*.user
+*.suo
+.vs/
+
+# 系统
+Thumbs.db
+desktop.ini
+
+# 发布产物走 GitHub Releases，不入库
+release/**/*.exe
