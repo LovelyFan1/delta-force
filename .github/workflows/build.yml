@@ -1,0 +1,51 @@
+﻿name: build
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: Restore
+        run: dotnet restore src\DAS.sln
+
+      - name: Build
+        run: dotnet build src\DAS.sln -c Release --no-restore
+
+      - name: Publish (login)
+        run: >
+          dotnet publish src\DAS.App\DAS.App.csproj -c Release -r win-x64
+          -p:PublishSingleFile=true -p:SelfContained=true
+          -p:EnableCompressionInSingleFile=true -p:Mode=login
+          -o dist\login
+
+      - name: Publish (verify)
+        run: >
+          dotnet publish src\DAS.App\DAS.App.csproj -c Release -r win-x64
+          -p:PublishSingleFile=true -p:SelfContained=true
+          -p:EnableCompressionInSingleFile=true -p:Mode=verify
+          -o dist\verify
+
+      - name: Hash
+        run: |
+          Get-FileHash dist\login\*.exe -Algorithm SHA256 | Tee-Object -FilePath dist\login.sha256
+          Get-FileHash dist\verify\*.exe -Algorithm SHA256 | Tee-Object -FilePath dist\verify.sha256
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: das-11.16
+          path: |
+            dist/login/*.exe
+            dist/verify/*.exe
+            dist/*.sha256

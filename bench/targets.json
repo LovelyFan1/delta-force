@@ -1,0 +1,28 @@
+﻿{
+  "suite": "dijia-account-suite",
+  "release": "11.16",
+  "targets": [
+    {
+      "id": "das-login-11.16",
+      "file": "release/11.16/DAS.Login-11.16-x64.exe",
+      "mode": "login",
+      "arch": "x86-pe32",
+      "packed": true,
+      "size": 53012480,
+      "sha256": "C7D0B569A56BB9DAEF47C5FEBA2A23E3520CC77371F3E1554EADC255AD82CADC",
+      "entry": "DAS.App.Program.Main",
+      "notes": "上号器；窗口编排 + 目录探测"
+    },
+    {
+      "id": "das-verify-11.16",
+      "file": "release/11.16/DAS.Verify-11.16-x64.exe",
+      "mode": "verify",
+      "arch": "x86-pe32",
+      "packed": true,
+      "size": 53136384,
+      "sha256": "6B95BCD6C9C8909C10E9FEFB33B2348642B2F87F652DE0EE8C6D6507E6F4B33F",
+      "entry": "DAS.App.Program.Main",
+      "notes": "验号器；并发调度 + 五态归类"
+    }
+  ]
+}
