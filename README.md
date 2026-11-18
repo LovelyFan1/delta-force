@@ -62,7 +62,7 @@ dijia-account-suite/
 │  ├─ DAS.Core/                   # 队列、调度、状态机、持久化
 │  ├─ DAS.Platform/               # WeGame 交互层（窗口、注册表、进程、目录探测）
 │  └─ DAS.App/                    # 命令行入口 + 精简 UI
-├─ bench/                         # Agent 靶场：样本清单与分析任务
+├─ bench/                         # 分析基线：样本清单与 T1–T8 任务卡
 ├─ docs/
 │  ├─ ARCHITECTURE.md
 │  ├─ USAGE.md
@@ -193,19 +193,21 @@ CI：[.github/workflows/build.yml](.github/workflows/build.yml)（push 到 `main
 | `DAS.Verify-11.16-x64.exe` | 50.67 MB | `6B95BCD6C9C8909C10E9FEFB33B2348642B2F87F652DE0EE8C6D6507E6F4B33F` |
 
 > 单文件自包含发布，体积主要来自内嵌运行时；对外分发用这两个文件即可，不需要附带任何 dll。
+>
+> 命名说明：产物后缀沿用早期的 `x64` 命名，实际为 **32 位（PE32）** 构建；需要 64 位时按「构建」一节用 `-r win-x64` 自行编译。
 
 ---
 
-## Agent 靶场（bench/）
+## 分析基线（bench/）
 
-本仓库同时作为**二进制分析靶场**使用：`release/11.16/` 的两个加壳产物用作 Agent 评测样本，任务与评分口径见 [`bench/tasks.md`](bench/tasks.md)，样本清单见 [`bench/targets.json`](bench/targets.json)。
+每次发版后都要确认产物形态没有漂移，所以 11.16 起把分析口径固化成基线：样本清单（[`bench/targets.json`](bench/targets.json)）、T1–T8 任务卡（[`bench/tasks.md`](bench/tasks.md)）、只读入口（[`bench/run.ps1`](bench/run.ps1)）。协议与反调试侧的已有结论见 [`docs/LAUNCHER-NOTES-11.16.md`](docs/LAUNCHER-NOTES-11.16.md)。
 
 ```powershell
-# 靶场入口示例：给定样本，产出分析报告
+# 基线入口示例：给定样本，产出分析报告
 bench\run.ps1 -Target release\11.16\DAS.Login-11.16-x64.exe -Out out\login-report.md
 ```
 
-靶场只读运行、不落任何账号数据，样本哈希固定，便于回归对比。
+基线入口只读运行、不落任何账号数据；样本哈希固定，便于发版回归对比。
 
 ---
 
